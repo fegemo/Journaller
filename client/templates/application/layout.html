@@ -1,0 +1,15 @@
+<template name="layout">
+    <header id="main-header">
+      <nav class="indigo" role="navigation">
+        <a class="brand-logo" href="/">Journaller</a>
+        <ul class="right hide-on-med-and-down">
+          <li><a href="sass.html">Sass</a></li>
+          <li><a href="components.html">Components</a></li>
+          <li><a href="javascript.html">JavaScript</a></li>
+        </ul>
+      </nav>
+    </header>
+    <div id="main">
+        {{> yield}}
+    </div>
+</template>

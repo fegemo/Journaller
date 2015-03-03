@@ -1,0 +1,9 @@
+@import 'entry-list';
+
+.fill-height-pane {
+  overflow-y: hidden;
+  box-sizing: border-box;
+  &:hover {
+    overflow-y: auto;
+  }
+}

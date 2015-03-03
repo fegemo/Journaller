@@ -1,0 +1,70 @@
+<template name="entryList">
+  <div id="breadcrumbs">
+    {{#if activeRegion.name}}
+      <button id="deselect-region" class="btn">
+        <i class="mdi-action-highlight-remove"></i> {{activeRegion.name}}
+      </button>
+    {{/if}}
+    {{#if activeCity.name}}
+      <button id="deselect-city" class="btn">
+        <i class="mdi-action-highlight-remove"></i> {{activeCity.name}}
+      </button>
+    {{/if}}
+  </div>
+  <div id="entry-list" class="row">
+    <div class="col columns-shown-{{columnsShown}}">
+      <div class="collection" id="region-list">
+        <div class="collection-item">
+          <h4>Mesorregiões</h4>
+        </div>
+        <div class="collection-item fill-height-pane">
+            {{#each regions}}
+              <a href="#!" class="region-link">
+                <div class="card small {{#unless thisIsActiveRegion}}black-text{{/unless}} {{#if thisIsActiveRegion}}active indigo lighten-1 white-text{{/if}}">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    <img src="img/{{picture}}">
+                    <span class="card-title white-text">{{pictureCaption}}</span>
+                  </div>
+                  <div class="card-content">{{name}}</div>
+                </div>
+              </a>
+            {{/each}}
+        </div>
+      </div>
+    </div>
+    {{#if activeRegion.name}}
+      <div class="col columns-shown-{{columnsShown}}">
+        <div class="collection" id="city-list">
+          <div class="collection-item">
+            <h4>Cidades</h4>
+          </div>
+          <div class="fill-height-pane">
+            {{#each cities}}
+              <a href="#!" class="collection-item {{#unless thisIsActiveCity}}indigo-text{{/unless}} {{#if thisIsActiveCity}}active indigo lighten-1 white-text{{/if}}">{{name}}</a>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    {{/if}}
+    {{#if activeCity.name}}
+      <div class="col columns-shown-{{columnsShown}}">
+        <div class="collection" id="journal-list">
+          <form id="new-journal-form">
+            <div class="collection-item">
+              <h4>
+                <a id="new-journal-name" class="btn-floating waves-effect waves-light indigo"><i class="mdi-content-add"></i></a>
+                Jornais
+              </h4>
+            </div>
+            <input class="collection-item validate" id="new-journal-name" type="text" placeholder="Cadastrar jornal" />
+            <input class="collection-item validate" id="new-journal-sub-title" type="text" placeholder="Subtítulo" />
+            <input class="collection-item validate" id="new-journal-owner" type="text" placeholder="Proprietário" />
+            <input class="collection-item validate" id="new-journal-price" type="text" placeholder="Preço" />
+          </form>
+          <a href="#!" class="collection-item indigo-text">O Candeense</a>
+          <a href="#!" class="collection-item active indigo lighten-1">O Momento</a>
+        </div>
+      </div>
+    {{/if}}
+  </div>
+</template>
