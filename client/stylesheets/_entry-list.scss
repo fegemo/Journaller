@@ -11,10 +11,6 @@
   width: 25%;
 }
 
-.hide {
-  display: none;
-}
-
 #region-list,
 #city-list,
 #journal-list,
@@ -56,7 +52,7 @@
   margin-bottom: 0;
 }
 
-#new-journal {
+#new-journal-button {
   float: right;
 }
 
@@ -65,5 +61,34 @@
 // as the other items in the collection
 input[type=text].collection-item {
   box-sizing: border-box;
+  opacity: 1;
+  transition: opacity 1s;
 }
 
+input[type=text].collection-item:not(.hidden-field) {
+  animation: fadeIn 2s ease-out 0s 1 normal forwards;
+}
+
+.hidden-field {
+  display: none;
+}
+
+.delete-button {
+  float: right;
+  padding: 0;
+  margin: 0;
+  position: relative;
+  width: 1.3rem;
+  height: 1.3rem;
+
+  &:focus {
+    background-color: transparent;
+  }
+
+  &> i {
+    position: absolute;
+    top: 0;
+    left: 0;
+    line-height: 100%;
+  }
+}

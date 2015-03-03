@@ -52,19 +52,24 @@
           <form id="new-journal-form">
             <div class="collection-item">
               <h4>
-                <a id="new-journal-name" class="btn-floating waves-effect waves-light indigo"><i class="mdi-content-add"></i></a>
+                <button type="submit" id="new-journal-button" class="btn btn-floating {{#unless canNewJournalBeAdded}}disabled{{else}}waves-effect waves-light indigo{{/unless}}" disabled="{{#unless canNewJournalBeAdded}}disabled{{/unless}}"><i class="mdi-content-add"></i></button>
                 Jornais
               </h4>
             </div>
-            <input class="collection-item validate" id="new-journal-name" type="text" placeholder="Cadastrar jornal" />
-            <input class="collection-item validate" id="new-journal-sub-title" type="text" placeholder="Subtítulo" />
-            <input class="collection-item validate" id="new-journal-owner" type="text" placeholder="Proprietário" />
-            <input class="collection-item validate" id="new-journal-price" type="text" placeholder="Preço" />
+            <input class="collection-item validate" id="new-journal-name" type="text" placeholder="Cadastrar jornal" required />
+            <input class="collection-item validate hidden-field" id="new-journal-sub-title" type="text" placeholder="Subtítulo" />
+            <input class="collection-item validate hidden-field" id="new-journal-owner" type="text" placeholder="Proprietário" />
+            <input class="collection-item validate hidden-field" id="new-journal-price" type="text" placeholder="Preço" />
+            {{#each journals}}
+              <a href="#!" class="collection-item indigo-text">
+                <button type="button" class="btn-flat delete-button waves waves-teal"><i class="mdi-action-delete small"></i></button>
+                  {{name}}
+              </a>
+            {{/each}}
           </form>
-          <a href="#!" class="collection-item indigo-text">O Candeense</a>
-          <a href="#!" class="collection-item active indigo lighten-1">O Momento</a>
         </div>
       </div>
     {{/if}}
   </div>
+  {{> confirmationModal callback=confirmDeleteModalCallback id="delete-journal" question="Tem certeza que deseja excluir este jornal?" }}
 </template>

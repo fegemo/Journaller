@@ -3,6 +3,7 @@
 .fill-height-pane {
   overflow-y: hidden;
   box-sizing: border-box;
+  will-change: width;
   &:hover {
     overflow-y: auto;
   }

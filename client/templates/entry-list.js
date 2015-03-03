@@ -37,6 +37,19 @@ Template.entryList.helpers({
   journals: function() {
     var city = Session.get('activeCity');
     return Journals.find({ cityId: city._id }, { sort: {name: 1 } });
+  },
+  canNewJournalBeAdded: function() {
+    var city = Session.get('activeCity'),
+        newJournalName = Session.get('newJournalName');
+    return city && city._id && newJournalName && newJournalName.trim() !== '';
+  },
+  confirmDeleteModalCallback: function() {
+    return function(shouldDelete) {
+      var journalId = $('#modal-delete-journal').data('journal-id');
+      if (shouldDelete) {
+        Journals.remove(journalId);
+      }
+    }
   }
 
   // editions
@@ -71,7 +84,7 @@ Template.entryList.events({
     } else {
       Session.set('columnsShown', 3);
       Session.set('activeCity', this);
-      template.$('#city-list .fill-height-pane').scrollTo(e.currentTarget, 500);
+      template.$('#city-list .fill-height-pane').scrollTo(e.currentTarget, 5000);
     }
   },
   'click #deselect-city': function deselectCity() {
@@ -80,14 +93,15 @@ Template.entryList.events({
   },
 
   // Inserting a new journal
-  'focus #new-journal-name': function showNewJournalFields(e, template) {
-    template.$(e.currentTarget).closest('form').find('input:gt(0)').slideDown();
+  'focus #new-journal-form input': function showNewJournalFields(e, template) {
+    var $inputs = template.$(e.currentTarget).closest('form').find('input');
+    $inputs.filter(':gt(0)').removeClass('hidden-field');
+    $inputs.filter(':eq(0)').attr('placeholder', 'Nome do jornal');
   },
-  'blur #new-journal-form': function hideNewJournalFields(e, template) {
-    var $focused = $(document.activeElement);
-    if ($focused.closest('#new-journal-form').length !== 1){
-      template.$(e.currentTarget).closest('form').find('input:gt(0)').slideUp();
-    }
+  'blur #new-journal-form input': function hideNewJournalFields(e, template) {
+    var $inputs = template.$(e.currentTarget).closest('form').find('input');
+    $inputs.filter(':gt(0)').addClass('hidden-field');
+    $inputs.filter(':eq(0)').attr('placeholder', 'Cadastrar jornal');
   },
   'submit #new-journal-form': function newJournal(e, template) {
     var city = Session.get('activeCity'),
@@ -98,7 +112,7 @@ Template.entryList.events({
         $price = $form.find('#new-journal-price');
 
     if (typeof city._id === 'undefined') {
-      return;
+      return false;
     }
 
     Journals.insert({
@@ -113,10 +127,18 @@ Template.entryList.events({
     $subTitle.val('');
     $owner.val('');
     $price.val('');
-    template.$(e.currentTarget).closest('form').find('input:gt(0)').slideUp();
-
+    $form.find('input:gt(0)').addClass('hidden-field');
+    $form.find('input:eq(0)').attr('placeholder', 'Cadastrar jornal');
     return false;
+  },
+  'keyup #new-journal-name': function(e) {
+    // saves the value of the new journal name in a session variable (for reactivity)
+    Session.set('newJournalName', e.currentTarget.value);
+  },
+  'click #journal-list .delete-button': function(e, template) {
+    template.$('#modal-delete-journal').data('journal-id', this._id).openModal();
   }
+
 });
 
 
